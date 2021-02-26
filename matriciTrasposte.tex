@@ -1,0 +1,216 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{chains,fit,shapes}
+\usetikzlibrary{chains,fit,shapes}
+\usetikzlibrary{automata,positioning}
+\usetikzlibrary{mindmap}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usepackage{array}
+\usepackage{url}
+
+
+\usepackage[unicode=true,
+bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1, breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=true] {hyperref}
+
+\usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry}
+
+
+\lstnewenvironment{java}[1][]
+{\lstset{basicstyle=\small\ttfamily, columns=fullflexible,
+		keywordstyle=\color{red}\bfseries, commentstyle=\color{blue},
+		language=java, basicstyle=\small,
+		numbers=left, numberstyle=\tiny,
+		stepnumber=2, numbersep=5pt, frame=shadowbox, #1}}{}
+
+\title{Matrice trasposta Classe 4L Informatica}
+\author{Prof. Salvatore D'Asta}
+
+\makeindex
+
+\begin{document}
+\maketitle
+\section{Matrice Trasposta}
+La matrice trasposta della seguente matrice si ottiene scambiando le posizioni dei numeri in rosso con quelli in blu in modo tale che $ \mathbf{a[i][j]} $ si scambi con $ \mathbf{a[j][i]} $, dove $ a[i][j] $ è l'elemento posto nella i-esima riga e nella j-esima colonna.
+\\\\
+\begin{tabular}{c |c c c c|}
+	i/j&0&1&2&3\\
+	\hline 
+	0&\textbf{0}&\color{red}1  &\color{red}2  &\color{red}3  \\ 
+	%\hline 
+	1&\color{blue}4&\textbf{5}  &\color{red}6  &\color{red}7  \\ 
+	%\hline 
+	2&\color{blue}8&\color{blue}9  &\textbf{10}  &\color{red}11  \\ 
+	%\hline 
+	3&\color{blue}12&\color{blue}13  &\color{blue}14  &\textbf{15}  \\ 
+	%\hline 
+\end{tabular} $ \Longrightarrow $
+\begin{tabular}{c |c c c c|}
+	i/j&0&1&2&3\\
+	\hline 
+	0&\textbf{0}&\color{blue}4  &\color{blue}8  &\color{blue}12  \\ 
+	%\hline 
+	1&\color{red}1&\textbf{5}  &\color{blue}9  &\color{blue}13  \\ 
+	%\hline 
+	2&\color{red}2&\color{red}6  &\textbf{10}  &\color{blue}14  \\ 
+	%\hline 
+	3&\color{red}3&\color{red}7  &\color{red}11  &\textbf{15}  \\ 
+	%\hline 
+\end{tabular}
+\\\\
+Si può osservare che per ottenere il risultato basta effettuare 6 scambi cioè 3+2+1 scambi ed in generale per una matrice quadrata di
+ dimensione $ n\times n $ basta effettuare $\underbrace{ (n-1)+(n-2)+\dots+1}_{(n-1) \mbox{  addendi}} $ scambi
+\\\\ 
+\begin{java}
+public void traspostaMatrice()
+	{
+		int Supporto;
+		for(int i=0;i<righe;i++)
+		{
+		for (int j=i;j<colonne;j++)
+		{
+			Supporto=Matrice[i][j];
+			Matrice[i][j]=Matrice[j][i];
+			Matrice[j][i]=Supporto;
+		}
+	}
+}
+\end{java}
+
+\pagebreak
+
+\section{Metodo di eliminazione di Gauss}
+Consiste nel riuscire a trasformare la matrice data  in una matrice a gradini (\textit{tutti zeri al di sotto della diagonale principale})
+Si supponga di averre la seguente matrice:
+\[\begin{pmatrix}
+4 & 5 & 9 & 6\\
+1 & 5 & 11 & 7\\
+7 & 3 & 2 & 1\\
+2 & 1 & 0 & 8
+\end{pmatrix}\] 
+
+regole per trasformarla sono le seguenti:
+\begin{itemize}
+	\item si possono scambiare le righe
+	\item si può sostituire una riga con il risultato della somma della stessa con un'altra riga eventualmente moltiplicata per un numero\footnote{Moltiplicare una riga per un numero equivale a moltiplicare ogni elemento della riga per il numero ad esempio se la riga della matrice  è $ 2\; 4\; 8\; 6 $ moltiplicarla per $ 3 $ equivale ad eseguire la seguente operazione: $ (3\times 2)\;(3\times4)\;(3\times 8)\;(3\times 6) $}.
+\end{itemize} 
+
+Il risultato dovrà essere una matrice della forma:
+\[\begin{pmatrix}
+a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+0&a_{1 1}&a_{1 2}&a_{1 3}\\
+0&0&a_{2 2}&a_{2 3}\\
+0&0&0&a_{3 3}\\
+\end{pmatrix}\]
+Algoritmo:\\
+Supponiamo di avere la seguente matrice:
+\[\begin{pmatrix}
+a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+a_{1 0}&a_{1 1}&a_{1 2}&a_{1 3}\\
+a_{2 0}&a_{2 1}&a_{2 2}&a_{2 3}\\
+a_{3 0}&a_{3 1}&a_{3 2}&a_{3 3}\\
+\end{pmatrix}\]
+
+\begin{enumerate}
+	\item Se la prima riga ha il primo elemento $ a_{0 0}=0 $  la si scambia con una che ha il primo elemento non nullo
+	\item si sottrae alla seconda riga la prima moltiplicata per $ \frac{a_{10}}{a_{00}} $ e la sostituisce alla seconda riga.
+	\item si procede allo stesso  modo  con le restanti righe  sottraendo alla i-esima riga la prima moltiplicata per $  \frac{a_{i0}}{a_{00}}$ fino ad ottenere una matrice della forma:
+	\[\begin{pmatrix}
+	a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+	0&b_{1 1}&b_{1 2}&b_{1 3}\\
+	0&b_{2 1}&b_{2 2}&b_{2 3}\\
+	0&a_{3 1}&b_{3 2}&b_{3 3}\\
+	\end{pmatrix}\]
+	\item Si sottrae alla terza riga la seconda moltiplicata per $ \frac{b_{21}}{b_{11}} $  ed allo stesso modo si procede per restanti righe sottraendo alla i-esima riga la seconda moltiplicata per $ \frac{b_{i1}}{b_{11}} $  in tal modo otteniamo una matrice della forma:
+	\[\begin{pmatrix}
+	a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+	0&b_{1 1}&b_{1 2}&b_{1 3}\\
+	0&0&c_{2 2}&c_{2 3}\\
+	0&0&c_{3 2}&c_{3 3}\\
+	\end{pmatrix}\]
+	\item ed infine sottraendo all'ultima la penultima moltiplicata per $ \frac{c_{32}}{c_{22}} $ otteniamo:
+	\[\begin{pmatrix}
+	a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+	0&b_{1 1}&b_{1 2}&b_{1 3}\\
+	0&0&c_{2 2}&c_{2 3}\\
+	0&0&0&d_{3 3}\\
+	\end{pmatrix}\]	
+	
+\end{enumerate}
+\subsection{Esempio}
+
+\[A=\begin{pmatrix}
+4 & 5 & 9 & 6\\
+1 & 5 & 11 & 7\\
+7 & 3 & 2 & 1\\
+2 & 1 & 0 & 8
+\end{pmatrix}\] 	
+Applichiamo l'agoritmo di Gauss:\\
+Sottraiamo alla seconda riga, la prima moltiplicata per $ \frac{1}{4} $  quindi:\[ \frac{1}{4}\times (4 \; 5 \; 9 \; 6)=(1\;\frac{5}{4}\;\frac{9}{4}\;\frac{3}{2}) \]
+\[ (1 \; 5 \; 11 \; 7)-(1\;\frac{5}{4}\;\frac{9}{4}\;\frac{3}{2})=(0\;-\frac{15}{4}\;-\frac{35}{4}\;-\frac{11}{2}) \] La matrice quindi diventa:
+\[A=\begin{pmatrix}
+4 & 5 & 9 & 6\\\\
+0&-\frac{15}{4}&-\frac{35}{4}&-\frac{11}{2}\\\\
+7 & 3 & 2 & 1\\\\
+2 & 1 & 0 & 8
+\end{pmatrix}\]
+E se allo stesso modo operiamo per la 3 riga (sottraendo la prima riga moltiplicata per $ \frac{7}{4} $) e la 4 riga (sottraendo la prima riga moltiplicata per $ \frac{4}{2}=\frac{1}{2} $):
+
+\[ \left(\begin{matrix}
+4 & 5 & 9 & 6 \\\\
+0 & \frac{15}{4} & \frac{35}{4} & \frac{11}{2} \\\\
+0 & \frac{-23}{4} & \frac{-55}{4} & \frac{-19}{2} \\\\
+0 & \frac{-3}{2} & \frac{-9}{2} & 5
+\end{matrix}\right) \]
+e così via
+\[ \vdots \]
+
+\[ 
+\left(\begin{matrix}
+	4 & 5 & 9 & 6 \\\\
+	0 & \frac{15}{4} & \frac{35}{4} & \frac{11}{2} \\\\
+	0 & 0 & \frac{-1}{3} & \frac{-16}{15} \\\\
+	0 & 0 & 0 & \frac{52}{5}
+\end{matrix}\right)
+ \]
+\url{ https://matrixcalc.org/it/det.html#determinant-Gauss}
+ 
+%\begin{tikzpicture}
+%https://matrixcalc.org/it/det.html#determinant-Gauss%28%7B%7B4,5,9,6%7D,%7B1,5,11,7%7D,%7B7,3,2,1%7D,%7B2,1,0,8%7D%7D%29\matrix [nodes={minimum size=10pt}]
+%{
+%	\node{1}; \draw[red](0,0) circle(8pt); & \node(A){2}; & \node(C) {3};& \node {4};& \node {5}; \\
+%	\node(B) {6};\draw[green](0,0) circle(10pt); & \node{7};\draw[red](0,0) circle(8pt); & \node {8};& \node {9};& \node {10}; \\
+%	\node(D) {11}; & \node{12};\draw[green](0,0) circle(10pt); & \node {13};\draw[red](0,0) circle(8pt);& \node {14};& \node {15}; \\
+%	\node {16}; & \node{17}; & \node {18};\draw[green](0,0) circle(10pt);& \node {19}; \draw[red](0,0) circle(8pt);& \node {20}; \\
+%	\node {21}; & \node{22}; & \node {23};& \node {24};\draw[green](0,0) circle(10pt);& \node {25}; \\
+%};
+%
+%%\draw (A)to [-latex,thick,bend left] (B);
+%%\draw (C)to [bend left] (D);
+%\end{tikzpicture}\\
+%$ \frac{\color{green}Matrice[1,0]}{\color{red}Matrice[0,0]} \; \frac{\color{green}Matrice[2,1]}{\color{red}Matrice[1,2]} \; \frac{\color{green}Matrice[1,0]}{\color{red}Matrice[0,0]} $ 
+%
+%\begin{tikzpicture}
+%\matrix [nodes={fill=brown!10,minimum size=8mm}]
+%{
+%	\node{4}; \draw(0,0) circle(10pt); & \node{7}; & \node {2};& \node {5};& \node {4}; \\
+%	\node  {0}; & \node{8}; & \node {9};& \node {5};& \node {2}; \\
+%	\node {10}; & \node{8}; & \node {6};& \node {4};& \node {7}; \\
+%	\node {3}; & \node{5}; & \node {1};& \node {2};& \node {9}; \\
+%	\node {2}; & \node{1}; & \node {3};& \node {7};& \node {1}; \\
+%};
+%
+%\end{tikzpicture}
+
+\end{document}

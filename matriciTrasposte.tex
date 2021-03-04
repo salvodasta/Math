@@ -28,7 +28,7 @@ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1, b
 
 
 \lstnewenvironment{java}[1][]
-{\lstset{basicstyle=\small\ttfamily, columns=fullflexible,
+{\lstset{basicstyle=\small\sffamily,columns=fullflexible,
 		keywordstyle=\color{red}\bfseries, commentstyle=\color{blue},
 		language=java, basicstyle=\small,
 		numbers=left, numberstyle=\tiny,
@@ -136,10 +136,10 @@ a_{3 0}&a_{3 1}&a_{3 2}&a_{3 3}\\
 	\[\begin{pmatrix}
 	a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
 	0&b_{1 1}&b_{1 2}&b_{1 3}\\
-	0&0&c_{2 2}&c_{2 3}\\
-	0&0&c_{3 2}&c_{3 3}\\
+	0&0&\color{red}c_{2 2}&c_{2 3}\\
+	0&0&\color{blue}c_{3 2}&c_{3 3}\\
 	\end{pmatrix}\]
-	\item ed infine sottraendo all'ultima la penultima moltiplicata per $ \frac{c_{32}}{c_{22}} $ otteniamo:
+	\item ed infine sottraendo all'ultima la penultima moltiplicata per {\color{red}$ \frac{c_{32}}{c_{22}} $} otteniamo:
 	\[\begin{pmatrix}
 	a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
 	0&b_{1 1}&b_{1 2}&b_{1 3}\\
@@ -151,7 +151,7 @@ a_{3 0}&a_{3 1}&a_{3 2}&a_{3 3}\\
 \subsection{Esempio}
 
 \[A=\begin{pmatrix}
-4 & 5 & 9 & 6\\
+{4} &{ 5} &{ 9} &{ 6}\\
 1 & 5 & 11 & 7\\
 7 & 3 & 2 & 1\\
 2 & 1 & 0 & 8
@@ -185,6 +185,27 @@ e così via
 \end{matrix}\right)
  \]
 \url{ https://matrixcalc.org/it/det.html#determinant-Gauss}
+
+\begin{java}
+   public void GaussJordan()
+{
+	float A=0;
+	for (int k=0;k<righe-1;k++) //fissa la riga "perno"
+	{	
+		for (int i=k+1;i<righe;i++)//scorre le righe
+		{
+			A=Matrice[i][k]/Matrice[k][k];//calcola il coefficiente che moltiplicato al perno bisognera'
+			                             //sottrarre alla i-esima riga
+			for (int j=k;j<colonne;j++)//scorre le colonne
+			{
+				
+				Matrice[i][j] =Matrice[i][j]-(A)*Matrice[k][j];
+			}
+			
+		}
+	}
+
+\end{java}
  
 %\begin{tikzpicture}
 %https://matrixcalc.org/it/det.html#determinant-Gauss%28%7B%7B4,5,9,6%7D,%7B1,5,11,7%7D,%7B7,3,2,1%7D,%7B2,1,0,8%7D%7D%29\matrix [nodes={minimum size=10pt}]
@@ -213,4 +234,36 @@ e così via
 %
 %\end{tikzpicture}
 
+\subsection{Sistemi di equazioni}
+\[ \left\{
+\begin{array}{rl}
+a_{00}\cdot x_1+a_{01}\cdot x_2+a_{02}\cdot x_3+a_{03}\cdot x_3=b_0\\\\
+a_{10}\cdot x_1+a_{11}\cdot x_2+a_{12}\cdot x_3+a_{13}\cdot x_3=b_1\\\\
+a_{20}\cdot x_1+a_{21}\cdot x_2+a_{22}\cdot x_3+a_{23}\cdot x_3=b_2\\\\
+a_{30}\cdot x_1+a_{31}\cdot x_2+a_{32}\cdot x_3+a_{33}\cdot x_3=b_3\\\\
+\end{array}
+\right.   \]
+Ricordando il prodotto tra matrici riga per colonna allora possiamo scrivere:
+
+\[\begin{pmatrix}
+a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+a_{1 0}&a_{1 1}&a_{1 2}&a_{1 3}\\
+a_{2 0}&a_{2 1}&a_{2 2}&a_{2 3}\\
+a_{3 0}&a_{3 1}&a_{3 2}&a_{3 3}\\
+\end{pmatrix}
+ \times 
+ \begin{pmatrix}
+ x_0\\
+ x_1\\
+ x_2\\
+ x_3 
+ \end{pmatrix}=
+ \begin{pmatrix}
+b_0\\
+b_1\\
+b_2\\
+b_3
+ \end{pmatrix}
+ \]
+ Se il determinante della matrice $ (a_{ij}) $ è diverso da zero, per il teorema di Rouche-Capelli possiamo affermare che $ \exists ! $ la soluzione.
 \end{document}

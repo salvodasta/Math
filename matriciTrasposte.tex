@@ -237,13 +237,13 @@ e così via
 \subsection{Sistemi di equazioni}
 \[ \left\{
 \begin{array}{rl}
-a_{00}\cdot x_1+a_{01}\cdot x_2+a_{02}\cdot x_3+a_{03}\cdot x_3=b_0\\\\
-a_{10}\cdot x_1+a_{11}\cdot x_2+a_{12}\cdot x_3+a_{13}\cdot x_3=b_1\\\\
-a_{20}\cdot x_1+a_{21}\cdot x_2+a_{22}\cdot x_3+a_{23}\cdot x_3=b_2\\\\
-a_{30}\cdot x_1+a_{31}\cdot x_2+a_{32}\cdot x_3+a_{33}\cdot x_3=b_3\\\\
+a_{00}\cdot x_0+a_{01}\cdot x_1+a_{02}\cdot x_2+a_{03}\cdot x_3=b_0\\\\
+a_{10}\cdot x_0+a_{11}\cdot x_1+a_{12}\cdot x_2+a_{13}\cdot x_3=b_1\\\\
+a_{20}\cdot x_0+a_{21}\cdot x_1+a_{22}\cdot x_2+a_{23}\cdot x_3=b_2\\\\
+a_{30}\cdot x_0+a_{31}\cdot x_1+a_{32}\cdot x_2+a_{33}\cdot x_3=b_3\\\\
 \end{array}
 \right.   \]
-Ricordando il prodotto tra matrici riga per colonna allora possiamo scrivere:
+Ricordando il prodotto tra matrici riga per colonna allora possiamo riscrivere il sistema sotto questa forma:
 
 \[\begin{pmatrix}
 a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
@@ -265,5 +265,96 @@ b_2\\
 b_3
  \end{pmatrix}
  \]
- Se il determinante della matrice $ (a_{ij}) $ è diverso da zero, per il teorema di Rouche-Capelli possiamo affermare che $ \exists ! $ la soluzione.
+ Se il determinante della matrice $ (a_{ij}) $ è diverso da zero, per il teorema di Rouche-Capelli possiamo affermare che $ \exists ! $ la soluzione.\\
+ Se alla matrice A sostituiamo la matrice a scalini ottenuta con il metodo di Gauss otteniamo:
+ \[\begin{pmatrix}
+ a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}\\
+ 0&a_{1 1}&a_{1 2}&a_{1 3}\\
+ 0&0&a_{2 2}&a_{2 3}\\
+ 0&0&0&a_{3 3}\\
+ \end{pmatrix}
+ \times 
+ \begin{pmatrix}
+ x_0\\
+ x_1\\
+ x_2\\
+ x_3 
+ \end{pmatrix}=
+ \begin{pmatrix}
+ b_0\\
+ b_1\\
+ b_2\\
+ b_3
+ \end{pmatrix}
+ \]
+ Allora il sistema possiamo scriverlo come:
+ \[ \left\{
+ \begin{array}{rl}
+ a_{00}\cdot x_0+a_{01}\cdot x_1+a_{02}\cdot x_2+a_{03}\cdot x_3=b_0\\\\
+ 0+a_{11}\cdot x_1+a_{12}\cdot x_2+a_{13}\cdot x_3=b_1\\\\
+ 0+0+a_{22}\cdot x_2+a_{23}\cdot x_3=b_2\\\\
+0+0+0+a_{33}\cdot x_3=b_3\\\\
+ \end{array}
+ \right.   \]
+ E sostituendo dall'ultima equazione otteniamo:
+ \[ x_3=\frac{b_{3}}{a_{3 3}} \mbox{ ; } x_2=\frac{b_2-a_{2 3}\cdot x_3}{a_{2 2}}\mbox{ ; }
+ x_1=\frac{b1-a_{1 3} \cdot x_3-a_{1 2}\cdot x_2}{a_{1 1}} \mbox{ ; }x_0=\frac{b_0-a_{0 3}\cdot x_3-a_{02}\cdot x_2-a_{01}\cdot x_1}{a_{00}} \]
+ Se consideriamo la seguente \textit{matrice associata}: 
+
+ \[\begin{pmatrix}
+ a_{0 0}&a_{0 1}&a_{0 2}&a_{0 3}&\arrowvert a_{0 4}\\
+ a_{1 0}&a_{1 1}&a_{1 2}&a_{1 3}&\arrowvert a_{1 4}\\
+ a_{2 0}&a_{2 1}&a_{2 2}&a_{2 3}&\arrowvert a_{2 4}\\
+ a_{3 0}&a_{3 1}&a_{3 2}&a_{3 3}&\arrowvert a_{3 4}\\
+ \end{pmatrix}\] dove per comodità abbiamo sostituito $ b_j \mbox{ con  }a_{j 4}\mbox{ dove   } j=0 \cdots n-1$
+ avremo allora il sistema:
+  \[ \left\{
+ \begin{array}{rl}
+ a_{00}\cdot x_0+a_{01}\cdot x_1+a_{02}\cdot x_2+a_{03}\cdot x_3=a_{04}\\\\
+ 0+a_{11}\cdot x_1+a_{12}\cdot x_2+a_{13}\cdot x_3=a_{14}\\\\
+ 0+0+a_{22}\cdot x_2+a_{23}\cdot x_3=a_{24}\\\\
+ 0+0+0+a_{33}\cdot x_3=a_{34}\\\\
+ \end{array}
+ \right.   \]
+ e quindi le soluzioni diventano:
+ \[ x_3=\frac{a_{34}}{a_{3 3}} \mbox{ ; } x_2=\frac{a_{24}-a_{2 3}\cdot x_3}{a_{2 2}}\mbox{ ; }
+ x_1=\frac{a_{14}-a_{1 3} \cdot x_3-a_{1 2}\cdot x_2}{a_{1 1}} \mbox{ ; }x_0=\frac{a_{04}-a_{0 3}\cdot x_3-a_{02}\cdot x_2-a_{01}\cdot x_1}{a_{00}} \]
+% \begin{java}
+% 	int n=righe;//numero di righe (cioe' di equazioni)
+% 	int p;//accumulera' le soluzioni xi con i=n,n-1,..,1 
+% 	for(int r=n;r>=0;r--)//parte dall'ultima riga e via via risale fino alla prima
+% 	{
+% 		p=Matrice[r][n+1];
+% 		if(r=!n)// per r=n non entra nell'if (quindi al primo passaggio)
+% 		{
+% 			for(int s=r+1;s<n+1)
+% 			{
+% 			 p=p-Matrice[r][s] * x[s] ;
+% 			}
+% 		}
+% 		x[r]=p/Matrice[r][r];
+% 	}
+% \end{java}
+\begin{java}
+	public void risolvi_sistema()
+	{
+		float p;//accumulera' le soluzioni xi con i=n,n-1,..,1
+		int n=righe-1;
+		for(int r=n;r>=0;r--) 
+		{
+			p=A[r][n+1];
+			if(r!=n) // per r=n non entra nell' if (quindi al primo passaggio)
+			{
+				for(int s=r+1;s<n+1;s++)
+				{
+					p=p-A[r][s]*x[s] ;
+				}
+			}
+			x[r]=p/A[r][r];
+		}
+		
+	}
+\end{java}
+
+$ \sqrt{(x-y)^2} $
 \end{document}
